@@ -2,7 +2,9 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 
-import { IAssinatura } from './models';
+import { isActiveSubscription } from './utils';
+
+import type { IAssinatura } from './models';
 
 @Injectable()
 export class AppService {
@@ -11,8 +13,16 @@ export class AppService {
   async getActivePlans() {
     const baseUrl = process.env.API_GATEWAY_BASE_URL || '';
 
-    return await lastValueFrom(
+    const response = await lastValueFrom(
       this.http.get<IAssinatura[]>(`${baseUrl}/planos/ativos`),
     );
+
+    const subscriptions = response.data;
+
+    const activeSubscriptions = subscriptions.filter((s) => {
+      return isActiveSubscription(s.dataUltimoPagamento);
+    });
+
+    return activeSubscriptions;
   }
 }
