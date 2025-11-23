@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import 'dotenv/config';
 
 @Module({
   imports: [
+    HttpModule,
     ClientsModule.register([
       {
         name: 'SERVICO_PLANOS_ATIVOS',
