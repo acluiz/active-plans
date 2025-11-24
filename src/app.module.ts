@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { HttpModule } from '@nestjs/axios';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
@@ -10,6 +11,7 @@ import 'dotenv/config';
 @Module({
   imports: [
     HttpModule,
+    CacheModule.register(),
     ClientsModule.register([
       {
         name: 'SERVICO_PLANOS_ATIVOS',
