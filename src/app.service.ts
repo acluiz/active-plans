@@ -23,9 +23,13 @@ export class AppService {
     return subscriptions;
   }
 
+  async clearPlansFromCache() {
+    await this.cacheManager.del('active_subscriptions');
+  }
+
   async getActivePlans() {
     const subscriptionsFromCache = await this.getActiveSubscriptionsFromCache();
-
+    console.log(subscriptionsFromCache.length);
     if (subscriptionsFromCache.length > 0) {
       return subscriptionsFromCache;
     }
